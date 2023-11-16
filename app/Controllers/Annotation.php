@@ -69,7 +69,7 @@ class Annotation
                     'starts_on'         => $annotation->selection->sc,
                     'ends_on'           => $annotation->selection->ec,
                     'selection_class'   => $annotation->metaLayer->class,
-                    'selection_content' => substr(
+                    'selection_content' => mb_substr(
                         $policy, 
                         $annotation->selection->sc, 
                         $annotation->selection->ec - $annotation->selection->sc
@@ -84,8 +84,8 @@ class Annotation
                     $rows = [];
                 }
             }
-
             Selection::create($rows);
+
         };
 
     }

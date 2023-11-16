@@ -19,7 +19,7 @@
 <header class="navbar navbar-expand fixed-top navbar-dark bg-dark">
 <div class="container">
 
-    <a class="navbar-brand" href="/">IoT Annotation</a>
+    <a class="navbar-brand" href="/">Annotation</a>
     
     <?php if ($id) { ?>
 

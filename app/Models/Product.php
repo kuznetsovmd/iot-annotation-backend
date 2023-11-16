@@ -38,9 +38,9 @@ class Product
         $values = [];
         foreach ($rows as $row) {
             $instances[] = "\n(?, ?, ?, ?, ?, ?)";
-            $values[]    = $row['manufacturer'];
+            $values[]    = 'N/A';
             $values[]    = $row['keyword'];
-            $values[]    = $row['product_url'];
+            $values[]    = 'N/A';
             $values[]    = $row['website_url'];
             $values[]    = $row['policy_url'];
             $values[]    = $row['policy_hash'];

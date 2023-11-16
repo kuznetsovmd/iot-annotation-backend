@@ -6,6 +6,7 @@ use App\Models\Selection;
 use App\Models\Policy;
 use App\Models\Product;
 use Engine\Config;
+use Engine\Services\DebugService as Debug;
 use Engine\Services\AuthService as Auth;
 use Engine\Services\FileSystemService as FS;
 use Engine\Request;
@@ -44,6 +45,9 @@ class ManageData
 
         $request->post_response = function () use ($request) {
 
+            $descriptor = $request->parameters['descriptor'];
+            $documents = $request->parameters['documents'];
+            $key = $request->parameters['key'];
             $tmp_file = $request->parameters['files']['data']['tmp_name'];
             $hash = md5(md5(rand()));
 
@@ -51,14 +55,23 @@ class ManageData
             FS::resource($tmp_file, $archive);
             FS::unzip($archive, $hash);
 
-            $json = json_decode(FS::read("$hash/plain.json"), true);
+            $json = json_decode(FS::read("$hash/$descriptor"), true);
 
+
+            $portion = 100;
             $policies = [];
             foreach ($json as $row => $value) {
-                $content = FS::read("$hash/{$value['plain_policy']}");
+                $content = FS::read("$hash/$documents/{$value[$key]}");
                 $policies[$value['policy_hash']] = str_replace("\r", '', $content);
+
+                if ($portion-- < 1) {
+                    Policy::create($policies);
+                    $portion = 100;
+                    $policies = [];
+                }
             }
             Policy::create($policies);
+
 
             $portion = 100;
             $products = [];
@@ -67,9 +80,9 @@ class ManageData
                 if (!in_array($value['policy_hash'], array_keys($policies))) continue;
 
                 $products[] = [
-                    'manufacturer' => $value['manufacturer'],
+                    // 'manufacturer' => $value['manufacturer'],
                     'keyword'      => $value['keyword'],
-                    'product_url'  => $value['url'],
+                    // 'product_url'  => $value['url'],
                     'website_url'  => $value['website'],
                     'policy_url'   => $value['policy'],
                     'policy_hash'  => $value['policy_hash']

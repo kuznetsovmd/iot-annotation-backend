@@ -2,6 +2,7 @@
 .vscode/
 vendor/
 node_modules/
+resources/
 composer.lock
 package-lock.json
 env.php
