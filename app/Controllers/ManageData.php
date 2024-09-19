@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Selection;
 use App\Models\Policy;
-use App\Models\Product;
 use Engine\Config;
 use Engine\Services\DebugService as Debug;
 use Engine\Services\AuthService as Auth;
@@ -57,7 +56,6 @@ class ManageData
 
             $json = json_decode(FS::read("$hash/$descriptor"), true);
 
-
             $portion = 100;
             $policies = [];
             foreach ($json as $row => $value) {
@@ -71,33 +69,8 @@ class ManageData
                 }
             }
             Policy::create($policies);
-
-
-            $portion = 100;
-            $products = [];
-            foreach ($json as $row => $value) {
-                
-                if (!in_array($value['policy_hash'], array_keys($policies))) continue;
-
-                $products[] = [
-                    // 'manufacturer' => $value['manufacturer'],
-                    'keyword'      => $value['keyword'],
-                    // 'product_url'  => $value['url'],
-                    'website_url'  => $value['website'],
-                    'policy_url'   => $value['policy'],
-                    'policy_hash'  => $value['policy_hash']
-                ];
-
-                if ($portion-- < 1) {
-                    Product::create($products);
-                    $portion = 100;
-                    $products = [];
-                }
-
-            }
-
-            Product::create($products);
             FS::rmdir($hash, true);
+
         };
 
     }
