@@ -19,11 +19,11 @@
                         <input id="descriptorFile" name="descriptor" type="input" class="form-control" required="">
                     </div>
                     <div class="form-group text-left">
-                        <label for="documentsPath" class="form-label">Subfolder with documents witth zip-archive</label>
+                        <label for="documentsPath" class="form-label">Subfolder with documents within zip-archive</label>
                         <input id="documentsPath" name="documents" type="input" class="form-control" required="">
                     </div>
                     <div class="form-group text-left">
-                        <label for="fileKey" class="form-label">Descriptor key for document identification</label>
+                        <label for="fileKey" class="form-label">Descriptor key for file (with extension) identification</label>
                         <input id="fileKey" name="key" type="input" class="form-control" required="">
                     </div>
                     <div class="form-group text-left">
